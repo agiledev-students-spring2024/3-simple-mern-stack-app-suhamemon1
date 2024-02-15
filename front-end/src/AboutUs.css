@@ -28,6 +28,7 @@
 .AboutUs-image {
     flex: 1; /* Takes up 1 portion of the flex container */
     text-align: center; /* Center the image if the container is wider than the image */
+    
     border-right: 2px solid #e164af;
     
 }
@@ -42,4 +43,5 @@
 .AboutUs-image img {
     max-width: 100%; /* Ensure the image is responsive and doesn't overflow its container */
     height: auto; /* Maintain aspect ratio */
+    padding-right: 20px;
 }

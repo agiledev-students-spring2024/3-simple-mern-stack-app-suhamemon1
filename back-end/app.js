@@ -17,7 +17,6 @@ app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming P
 // serve files from the assets directory
 app.use(express.static(path.join(__dirname, 'assets')));
 
-
 // connect to database
 mongoose
   .connect(`${process.env.DB_CONNECTION_STRING}`)
@@ -57,7 +56,7 @@ app.get('/about-us', async (req, res) => {
       about: aboutUs,
       status: 'all good',
     })
-    console.log(aboutUs.imageUrl)
+    // console.log(aboutUs.imageUrl)
   } catch (err) {
     console.error(err)
     res.status(400).json({

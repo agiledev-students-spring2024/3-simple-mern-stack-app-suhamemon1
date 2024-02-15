@@ -25,8 +25,6 @@ const AboutUs = props => {
                 const response = await axios.get(
                     `${process.env.REACT_APP_SERVER_HOSTNAME}/about-us`
                 )
-                console.log(response);
-                // console.log(response.data);
                 setAboutUsData(response.data.about);
             } catch (error) {
                 console.error('Error fetching About Us data:', error);
@@ -42,7 +40,7 @@ const AboutUs = props => {
             <div className="AboutUs-content">
                 {aboutUsData.imageUrl && (
                     <div className="AboutUs-image">
-                        <img src={aboutUsData.imageUrl} alt="Profile" />
+                        <img src={`${process.env.REACT_APP_SERVER_HOSTNAME}${aboutUsData.imageUrl}`} alt="Profile" />
                     </div>
                 )}
                 <div className="AboutUs-text">
@@ -63,4 +61,3 @@ const AboutUs = props => {
     );
 };
 export default AboutUs;
-
