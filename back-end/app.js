@@ -3,6 +3,8 @@ const express = require('express') // CommonJS import style!
 const morgan = require('morgan') // middleware for nice logging of incoming HTTP requests
 const cors = require('cors') // middleware for enabling CORS (Cross-Origin Resource Sharing) requests.
 const mongoose = require('mongoose')
+const path = require('path');
+
 
 const app = express() // instantiate an Express object
 app.use(morgan('dev', { skip: (req, res) => process.env.NODE_ENV === 'test' })) // log all incoming requests, except when in unit test mode.  morgan has a few logging default styles - dev is a nice concise color-coded style
@@ -11,6 +13,10 @@ app.use(cors()) // allow cross-origin resource sharing
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
+
+// serve files from the assets directory
+app.use(express.static(path.join(__dirname, 'assets')));
+
 
 // connect to database
 mongoose
@@ -21,6 +27,7 @@ mongoose
 // load the dataabase models we want to deal with
 const { Message } = require('./models/Message')
 const { User } = require('./models/User')
+const aboutUsContent = require('./models/AboutUs')
 
 // a route to handle fetching all messages
 app.get('/messages', async (req, res) => {
@@ -36,6 +43,26 @@ app.get('/messages', async (req, res) => {
     res.status(400).json({
       error: err,
       status: 'failed to retrieve messages from the database',
+    })
+  }
+})
+
+// a route to handle fetching all messages
+app.get('/about-us', async (req, res) => {
+  // Retrieve information about myself from AboutUs
+  try {
+    const aboutUs = aboutUsContent
+
+    res.json({
+      about: aboutUs,
+      status: 'all good',
+    })
+    console.log(aboutUs.imageUrl)
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'failed to retrieve about us data from models',
     })
   }
 })
